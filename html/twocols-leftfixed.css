@@ -1,0 +1,18 @@
+﻿/* CSS layout */
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#container {
+	min-width: 600px;
+}
+
+#left_col {
+	width: 200px;
+	float: left;
+}
+
+#page_content {
+	margin-left: 200px;
+}
