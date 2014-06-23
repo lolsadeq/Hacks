@@ -1,0 +1,6 @@
+#!/bin/sh
+
+LASTLOG=$(last -a $USER | head -1 - | awk '{print " Last login on " $3 " " $4 " " $5 " " $6 " from " $10}')
+
+printf "\033[0;31m We log everything! Big Brother is watching! Have lots of fun!\n"
+printf "%s\033[0;37m\n\n" "$LASTLOG"

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+IPADDR=$(/sbin/ifconfig eth0 | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}')
+CPUTYPE=$(cat /proc/cpuinfo | grep 'model name' | sed 's/model name\t: //g' | head -1 -)
+MEM=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}')
+PROCCOUNT=$(ps -ef | grep -v grep | grep -v aux | grep -v VSZ | wc -l)
+UPTIME=$(uprecords -a | grep ^-\> | awk '{print $3 " " $4 " " $5}')
+DISKUSE=$(df -Tha --total | grep ^/ | awk '{print "    " $7 " @ " $6 " use [size " $3 "; used " $4 "; free " $5 "]"}')
+
+printf "  host:       %s at %s\n" $(hostname) $IPADDR
+printf "  cpu:        %s x %s\n" $(nproc) "$CPUTYPE"
+printf "  memory:     %s\n" "$MEM KB"
+printf "  kernel:     %s\n" $(uname -r)
+printf "  uptime:     %s\n" "$UPTIME"
+printf "  processes:  %s running\n" $PROCCOUNT
+printf "  disk:\n%s" "$DISKUSE"
+printf "\n\n"

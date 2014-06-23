@@ -1,0 +1,7 @@
+#!/bin/sh
+
+HNAME=$(figlet -f slant `hostname`)
+DDESC=$(lsb_release -s -d)
+
+printf "Welcome to ...\n\033[0;35m%s\033[0;37m\n\033[1A                        .gorauskas.com\n\n" "$HNAME"
+printf " Running %s\n\n" "$DDESC"
