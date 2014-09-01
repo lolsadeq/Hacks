@@ -4,7 +4,7 @@
 so_xml2csv.py - Converts stackoverflow xml dump data to csv format
 Author: Jonas Gorauskas
 Created: 2014-09-01 13:53:06
-Modified: 2014-09-01 16:45:59
+Modified: 2014-09-01 16:49:03
 Description:
 
 This script converts stackoverflow xml dump data to csv format for the purposes
@@ -19,6 +19,17 @@ History:
 
 import xml.etree.ElementTreeas as etree
 import argparse
+import time
+
+
+class Timer:
+    def __enter__(self):
+        self.start = time.clock()
+        return self
+
+    def __exit__(self, *args):
+        self.end = time.clock()
+        self.interval = self.end - self.start
 
 
 def parse_args():
