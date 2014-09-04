@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+# coding: utf-8
+
+'''
+myip - Your ip on the internet
+Author: Jonas Gorauskas
+Created: 2014-09-03 19:13:45
+Modified: 2014-09-03 19:43:52
+Description:
+
+Find out what your current ip is on the Internet
+Includes geo ip information
+
+Requirements:
+
+  requests framework - pip install requests
+  http://freegeoip.net/
+
+'''
+
+
+import requests
+import argparse
+import xml.etree.ElementTree as etree
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Your ip on the internet',
+                                     epilog='written by Jonas Gorauskas')
+
+    parser.add_argument('-V', '--version',
+                        action='version',
+                        version='%(prog)s 0.1.0 - written by Jonas Gorauskas')
+    parser.add_argument('-i', '--ip', required=False, dest='ip',
+                        help='An ip address to find information about. Default to your current ip.')
+
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    MYIP_URL = 'http://freegeoip.net/xml/'
+    MYIP_HEADERS = {'Accept': 'application/xml'}
+
+    if args.ip is not None:
+        MYIP_URL = MYIP_URL + args.ip
+
+    rspn = requests.get(MYIP_URL, headers=MYIP_HEADERS)
+    tree = etree.ElementTree(etree.fromstring(rspn.text))
+    root = tree.getroot()
+
+    ip = root.find('Ip')
+    cntr = root.find('CountryName')
+    reg = root.find('RegionName')
+    city = root.find('City')
+
+    print('Your Current IP: %s' % ip.text)
+    print('You appear to be in %s, %s, %s' % (city.text, reg.text, cntr.text))
+
+
+if __name__ == '__main__':
+    main()
