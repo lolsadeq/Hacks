@@ -50,13 +50,15 @@ def main():
     tree = etree.ElementTree(etree.fromstring(rspn.text))
     root = tree.getroot()
 
-    ip = root.find('Ip')
+    ip = root.find('IP')
     cntr = root.find('CountryName')
     reg = root.find('RegionName')
     city = root.find('City')
+    tz = root.find('TimeZone')
 
     print('Your Current IP: %s' % ip.text)
     print('You appear to be in %s, %s, %s' % (city.text, reg.text, cntr.text))
+    print('Your current time zone appears to be %s' % tz.text)
 
 
 if __name__ == '__main__':
